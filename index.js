@@ -13,20 +13,36 @@ class Timer {
 
 	// starts timer
 	start = () => {
-		// to start tick function immediately, we invoke `tick` before `setInterval`
-		this.tick();
-		this.timerId = setInterval(() => {
+		if (!this.timerId) {
+			// to start tick function immediately, we invoke `tick` before `setInterval`
 			this.tick();
-		}, 1000);
+			this.timerId = setInterval(() => {
+				this.tick();
+			}, 1000);
+		}
 	};
 
 	pause = () => {
 		clearInterval(this.timerId);
+		this.timerId = undefined;
 	};
 
 	tick = () => {
-		this.durationInput.value = parseFloat(this.durationInput.value) - 1;
+		if (this.timeRemaining <= 0) {
+			this.pause();
+		} else {
+			// setter             getter
+			this.timeRemaining = this.timeRemaining - 1;
+		}
 	};
+
+	get timeRemaining() {
+		return parseFloat(this.durationInput.value);
+	}
+
+	set timeRemaining(time) {
+		this.durationInput.value = time;
+	}
 }
 
 const durationInput = document.querySelector('#duration');
