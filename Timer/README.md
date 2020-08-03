@@ -12,4 +12,3 @@ Created a Timer with JavaScript class.
   - `onStart`: Which is invoked as soon as the timer starts.
   - `onTick`: Which is invoked as soon as the timer value decreases.
   - `onComplete`: Which is invoked as soon as the timer value reaches to 0.
-
