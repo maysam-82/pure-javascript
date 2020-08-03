@@ -19,14 +19,14 @@ class Timer {
 	// starts timer
 	start = () => {
 		if (this.start) {
-			this.onStart();
+			this.onStart(this.timeRemaining);
 		}
 		if (!this.timerId) {
 			// to start tick function immediately, we invoke `tick` before `setInterval`
 			this.tick();
 			this.timerId = setInterval(() => {
 				this.tick();
-			}, 50);
+			}, 20);
 		}
 	};
 
@@ -43,9 +43,9 @@ class Timer {
 			}
 		} else {
 			// setter             getter
-			this.timeRemaining = this.timeRemaining - 0.05;
+			this.timeRemaining = this.timeRemaining - 0.02;
 			if (this.onTick) {
-				this.onTick();
+				this.onTick(this.timeRemaining);
 			}
 		}
 	};
