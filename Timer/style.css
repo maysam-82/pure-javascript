@@ -1,0 +1,71 @@
+.dial {
+    height: 25rem;
+    width: 25rem;
+}
+
+.timer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: inline-block;
+}
+
+* {
+    font: inherit;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+html {
+    font-size: 16px;
+}
+
+.timer input {
+    display: block;
+    border: none;
+    width: 15rem;
+    font-size: 5.625rem;
+    text-align: center;
+}
+
+.timer button {
+    border: none;
+    font-size: 2.25rem;
+    cursor: pointer;
+    padding: 0.625rem;
+    width: 4.5rem;
+    height: 4.5rem;
+    border-radius: 50%;
+    position: relative;
+}
+
+button i {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%)
+}
+
+.timer button:focus {
+    outline: none;
+}
+
+.timer input:focus {
+    outline: none;
+}
+
+.controls {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
