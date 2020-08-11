@@ -63,7 +63,25 @@ onMovieSelect = async (movie, summaryElement, sideReference) => {
 };
 
 const runComparison = () => {
-  console.log("Comparison");
+  const leftSideStats = document.querySelectorAll(
+    "#left-summary .notification"
+  );
+  const rightSideStats = document.querySelectorAll(
+    "#right-summary .notification"
+  );
+
+  leftSideStats.forEach((leftStat, index) => {
+    const rightStat = rightSideStats[index];
+    const leftSideValue = parseInt(leftStat.dataset.value);
+    const rightSideValue = parseInt(rightStat.dataset.value);
+    if (rightSideValue > leftSideValue) {
+      leftStat.classList.remove("is-primary");
+      leftStat.classList.add("is-warning");
+    } else {
+      rightStat.classList.remove("is-primary");
+      rightStat.classList.add("is-warning");
+    }
+  });
 };
 
 const movieTemplate = (movieDetail) => {
@@ -94,7 +112,7 @@ const movieTemplate = (movieDetail) => {
 	</div>
 	</div>
 	</article>
-	<article class="notification is-primary">
+	<article data-value=${awards} class="notification is-primary">
 	<p class="title">
 	${movieDetail.Awards}
 	</p>
@@ -102,7 +120,7 @@ const movieTemplate = (movieDetail) => {
 	Awards
 	</p>
 	</article>
-	<article class="notification is-primary">
+	<article data-value=${dollars} class="notification is-primary">
 	<p class="title">
 	${movieDetail.BoxOffice}
 	</p>
@@ -110,7 +128,7 @@ const movieTemplate = (movieDetail) => {
 	Box Office
 	</p>
 	</article>
-	<article class="notification is-primary">
+	<article data-value=${metascore} class="notification is-primary">
 	<p class="title">
 	${movieDetail.Metascore}
 	</p>
@@ -118,7 +136,7 @@ const movieTemplate = (movieDetail) => {
 	Metascore
 	</p>
 	</article>
-	<article class="notification is-primary">
+	<article data-value=${imdbRating} class="notification is-primary">
 	<p class="title">
 	${movieDetail.imdbRating}
 	</p>
@@ -126,7 +144,7 @@ const movieTemplate = (movieDetail) => {
 	IMDB Rating
 	</p>
 	</article>
-	<article class="notification is-primary">
+	<article data-value=${imdbVotes} class="notification is-primary">
 	<p class="title">
 	${movieDetail.imdbVotes}
 	</p>
