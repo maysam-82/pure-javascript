@@ -1,13 +1,12 @@
-createAutoComplete({
-  root: document.querySelector(".autocomplete"),
+const autoCompleteConfig = {
   renderOptions: (movie) => {
     const { Poster, Title, Year } = movie;
     // Check if Poster is not "N/A"
     const imgSrc = Poster !== "N/A" ? Poster : "";
     return `
-			<img src="${imgSrc}"  alt="${Title}"/>
-			${Title} (${Year})
-			`;
+				<img src="${imgSrc}"  alt="${Title}"/>
+				${Title} (${Year})
+				`;
   },
   onOptionSelect: (movie) => {
     onMovieSelect(movie);
@@ -25,6 +24,15 @@ createAutoComplete({
 
     return response.data.Search;
   },
+};
+
+createAutoComplete({
+  ...autoCompleteConfig,
+  root: document.querySelector("#left-autocomplete"),
+});
+createAutoComplete({
+  ...autoCompleteConfig,
+  root: document.querySelector("#right-autocomplete"),
 });
 
 onMovieSelect = async (movie) => {
