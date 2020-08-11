@@ -28,16 +28,30 @@ const resultsWrapper = document.querySelector(".results");
 
 const onInput = async (event) => {
   const movies = await fetchData(event.target.value);
+
+  if (!movies.length) {
+    dropdown.classList.remove("is-active");
+    return;
+  }
+
+  //  make `resultWrapper` empty if there is a previous fetch.
+  resultsWrapper.innerHTML = "";
   dropdown.classList.add("is-active");
   for (const movie of movies) {
     const { Title, Poster } = movie;
+
+    // Check if Poster is not "N/A"
+    const imgSrc = Poster !== "N/A" ? Poster : "";
     const option = document.createElement("a");
     option.classList.add("dropdown-item");
     option.innerHTML = `
-		  <img src="${Poster === 'N/A' ? '' : Poster}" alt="${Title}"/>
+		  <img src="${imgSrc}"  alt="${Title}"/>
 		  ${Title}
 		  `;
     resultsWrapper.appendChild(option);
   }
 };
 input.addEventListener("input", debounce(onInput, 500));
+document.addEventListener("click", (event) => {
+  if (!root.contains(event.target)) dropdown.classList.remove("is-active");
+});
