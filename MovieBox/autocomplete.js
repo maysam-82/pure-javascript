@@ -1,5 +1,10 @@
 // This function will take a configuration object to create autocomplete acc. to this congif.
-const createAutoComplete = ({ root, renderOptions }) => {
+const createAutoComplete = ({
+  root,
+  renderOptions,
+  onOptionSelect,
+  inputValue,
+}) => {
   root.innerHTML = `
     <label><b>Search For a Movie</b></label>
     <input class="input" />
@@ -31,9 +36,9 @@ const createAutoComplete = ({ root, renderOptions }) => {
       option.innerHTML = renderOptions(movie);
 
       option.addEventListener("click", () => {
-        input.value = movie.Title;
+        input.value = inputValue(movie.Title);
         dropdown.classList.remove("is-active");
-        onMovieSelect(movie);
+        onOptionSelect(movie);
       });
       resultsWrapper.appendChild(option);
     }

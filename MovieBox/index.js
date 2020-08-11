@@ -22,6 +22,10 @@ createAutoComplete({
 			${Title} (${Year})
 			`;
   },
+  onOptionSelect: (movie) => {
+    onMovieSelect(movie);
+  },
+  inputValue: (Title) => Title,
 });
 
 onMovieSelect = async (movie) => {
