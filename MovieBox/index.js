@@ -11,9 +11,18 @@ const fetchData = async (searchTerm) => {
   return response.data.Search;
 };
 
-createAutoComplete({ root: document.querySelector(".autocomplete") });
-createAutoComplete({ root: document.querySelector(".autocomplete-two") });
-createAutoComplete({ root: document.querySelector(".autocomplete-three") });
+createAutoComplete({
+  root: document.querySelector(".autocomplete"),
+  renderOptions: (movie) => {
+    const { Poster, Title, Year } = movie;
+    // Check if Poster is not "N/A"
+    const imgSrc = Poster !== "N/A" ? Poster : "";
+    return `
+			<img src="${imgSrc}"  alt="${Title}"/>
+			${Title} (${Year})
+			`;
+  },
+});
 
 onMovieSelect = async (movie) => {
   const response = await axios.get("http://www.omdbapi.com/", {

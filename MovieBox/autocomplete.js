@@ -1,6 +1,5 @@
 // This function will take a configuration object to create autocomplete acc. to this congif.
-const createAutoComplete = ({ root }) => {
-  console.log(root);
+const createAutoComplete = ({ root, renderOptions }) => {
   root.innerHTML = `
     <label><b>Search For a Movie</b></label>
     <input class="input" />
@@ -27,16 +26,9 @@ const createAutoComplete = ({ root }) => {
     resultsWrapper.innerHTML = "";
     dropdown.classList.add("is-active");
     for (const movie of movies) {
-      const { Title, Poster } = movie;
-
-      // Check if Poster is not "N/A"
-      const imgSrc = Poster !== "N/A" ? Poster : "";
       const option = document.createElement("a");
       option.classList.add("dropdown-item");
-      option.innerHTML = `
-              <img src="${imgSrc}"  alt="${Title}"/>
-              ${Title}
-              `;
+      option.innerHTML = renderOptions(movie);
 
       option.addEventListener("click", () => {
         input.value = movie.Title;
