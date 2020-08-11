@@ -28,7 +28,7 @@ createAutoComplete({
   root: document.querySelector("#left-autocomplete"),
   onOptionSelect: (movie) => {
     document.querySelector(".tutorial").classList.add("is-hidden");
-    onMovieSelect(movie, document.querySelector("#left-summary"));
+    onMovieSelect(movie, document.querySelector("#left-summary"), "left");
   },
 });
 createAutoComplete({
@@ -36,11 +36,13 @@ createAutoComplete({
   root: document.querySelector("#right-autocomplete"),
   onOptionSelect: (movie) => {
     document.querySelector(".tutorial").classList.add("is-hidden");
-    onMovieSelect(movie, document.querySelector("#right-summary"));
+    onMovieSelect(movie, document.querySelector("#right-summary"), "right");
   },
 });
 
-onMovieSelect = async (movie, summaryElement) => {
+let rightMovie, leftMovie;
+// Added `sideReference` to now which fetched data belongs to which summary side (left or right).
+onMovieSelect = async (movie, summaryElement, sideReference) => {
   const response = await axios.get("http://www.omdbapi.com/", {
     params: {
       apikey: getApiKey(),
@@ -49,6 +51,19 @@ onMovieSelect = async (movie, summaryElement) => {
   });
 
   summaryElement.innerHTML = movieTemplate(response.data);
+  if (sideReference === "left") {
+    leftMovie = response.data;
+  } else {
+    rightMovie = response.data;
+  }
+
+  if (leftMovie && rightMovie) {
+    runComparison();
+  }
+};
+
+const runComparison = () => {
+  console.log("Comparison");
 };
 
 const movieTemplate = (movieDetail) => {
