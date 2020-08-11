@@ -4,9 +4,10 @@ const createAutoComplete = ({
   renderOptions,
   onOptionSelect,
   inputValue,
+  fetchData,
 }) => {
   root.innerHTML = `
-    <label><b>Search For a Movie</b></label>
+    <label><b>Search</b></label>
     <input class="input" />
     <div class="dropdown">
       <div class="dropdown-menu">
@@ -20,9 +21,9 @@ const createAutoComplete = ({
   const resultsWrapper = root.querySelector(".results");
 
   const onInput = async (event) => {
-    const movies = await fetchData(event.target.value);
+    const items = await fetchData(event.target.value);
 
-    if (!movies.length) {
+    if (!items.length) {
       dropdown.classList.remove("is-active");
       return;
     }
@@ -30,15 +31,15 @@ const createAutoComplete = ({
     //  make `resultWrapper` empty if there is a previous fetch.
     resultsWrapper.innerHTML = "";
     dropdown.classList.add("is-active");
-    for (const movie of movies) {
+    for (const item of items) {
       const option = document.createElement("a");
       option.classList.add("dropdown-item");
-      option.innerHTML = renderOptions(movie);
+      option.innerHTML = renderOptions(item);
 
       option.addEventListener("click", () => {
-        input.value = inputValue(movie.Title);
+        input.value = inputValue(item);
         dropdown.classList.remove("is-active");
-        onOptionSelect(movie);
+        onOptionSelect(item);
       });
       resultsWrapper.appendChild(option);
     }
