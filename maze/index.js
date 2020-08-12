@@ -21,6 +21,7 @@ const render = Render.create({
   element: document.body,
   engine: engine,
   options: {
+    wireframes: false,
     width,
     height,
   },
@@ -140,6 +141,9 @@ horizontalsSegment.forEach((row, rowIndex) => {
       {
         label: wallLabel,
         isStatic: true,
+        render: {
+          fillStyle: "red",
+        },
       }
     );
     World.add(world, wall);
@@ -157,6 +161,9 @@ verticalsSegment.forEach((row, rowIndex) => {
       {
         label: wallLabel,
         isStatic: true,
+        render: {
+          fillStyle: "red",
+        },
       }
     );
     World.add(world, wall);
@@ -167,11 +174,14 @@ verticalsSegment.forEach((row, rowIndex) => {
 const goal = Bodies.rectangle(
   width - unitLengthX / 2,
   height - unitLengthY / 2,
-  0.65 * unitLengthX,
-  0.65 * unitLengthY,
+  0.65 * Math.min(unitLengthX, unitLengthY),
+  0.65 * Math.min(unitLengthX, unitLengthY),
   {
     isStatic: true,
     label: goalLabel,
+    render: {
+      fillStyle: "green",
+    },
   }
 );
 World.add(world, goal);
@@ -179,6 +189,9 @@ World.add(world, goal);
 // Draw Ball
 const ball = Bodies.circle(unitLengthX / 2, unitLengthY / 2, ballRadius, {
   label: ballLabel,
+  render: {
+    fillStyle: "white",
+  },
 });
 
 World.add(world, ball);
