@@ -1,12 +1,4 @@
-const {
-  Engine,
-  Render,
-  Runner,
-  World,
-  Bodies,
-  MouseConstraint,
-  Mouse,
-} = Matter;
+const { Engine, Render, Runner, World, Bodies, Body } = Matter;
 
 const cells = 15;
 const width = 600;
@@ -17,6 +9,8 @@ const wallTickness = 5;
 const ballRadius = unitLength * 0.2;
 
 const engine = Engine.create();
+// Disable gravity
+engine.world.gravity.y = 0;
 const { world } = engine;
 const render = Render.create({
   element: document.body,
@@ -28,13 +22,6 @@ const render = Render.create({
 });
 Render.run(render);
 Runner.run(Runner.create(), engine);
-
-World.add(
-  world,
-  MouseConstraint.create(engine, {
-    mouse: Mouse.create(render.canvas),
-  })
-);
 
 // Walls
 const walls = [
@@ -166,8 +153,21 @@ const goal = Bodies.rectangle(
 World.add(world, goal);
 
 // Draw Ball
-const ball = Bodies.circle(unitLength / 2, unitLength / 2, ballRadius, {
-  isStatic: true,
-});
+const ball = Bodies.circle(unitLength / 2, unitLength / 2, ballRadius);
 
 World.add(world, ball);
+
+document.addEventListener("keydown", (event) => {
+  const {
+    velocity: { x, y },
+  } = ball;
+  if (event.keyCode === 38) {
+    Body.setVelocity(ball, { x, y: y - 5 });
+  } else if (event.keyCode === 40) {
+    Body.setVelocity(ball, { x, y: y + 5 });
+  } else if (event.keyCode === 37) {
+    Body.setVelocity(ball, { x: x - 5, y });
+  } else if (event.keyCode === 39) {
+    Body.setVelocity(ball, { x: x + 5, y });
+  }
+});
