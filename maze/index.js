@@ -39,3 +39,17 @@ const walls = [
   Bodies.rectangle(width, height / 2, 40, height, { isStatic: true }),
 ];
 World.add(world, walls);
+
+// Maze generation
+// Creating 2d arrays with 3 columns and 3 rows (grid array)
+
+const grid = Array(3)
+  .fill(null)
+  .map(() => Array(3).fill(false));
+
+const verticalsSegment = Array(3)
+  .fill(null)
+  .map(() => Array(2).fill(false));
+const horizontalsSegment = Array(2)
+  .fill(null)
+  .map(() => Array(3).fill(false));
