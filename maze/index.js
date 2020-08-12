@@ -8,10 +8,13 @@ const {
   Mouse,
 } = Matter;
 
-const cells = 3;
+const cells = 15;
 const width = 600;
 const height = 600;
-const unitLength = width / 3;
+const unitLength = width / cells;
+const borderThickness = 1;
+const wallTickness = 5;
+const ballRadius = unitLength * 0.2;
 
 const engine = Engine.create();
 const { world } = engine;
@@ -35,10 +38,14 @@ World.add(
 
 // Walls
 const walls = [
-  Bodies.rectangle(width / 2, 0, width, 40, { isStatic: true }),
-  Bodies.rectangle(width / 2, height, width, 40, { isStatic: true }),
-  Bodies.rectangle(0, height / 2, 40, height, { isStatic: true }),
-  Bodies.rectangle(width, height / 2, 40, height, { isStatic: true }),
+  Bodies.rectangle(width / 2, 0, width, borderThickness, { isStatic: true }),
+  Bodies.rectangle(width / 2, height, width, borderThickness, {
+    isStatic: true,
+  }),
+  Bodies.rectangle(0, height / 2, borderThickness, height, { isStatic: true }),
+  Bodies.rectangle(width, height / 2, borderThickness, height, {
+    isStatic: true,
+  }),
 ];
 World.add(world, walls);
 
@@ -121,7 +128,7 @@ horizontalsSegment.forEach((row, rowIndex) => {
       columnIndex * unitLength + unitLength / 2,
       rowIndex * unitLength + unitLength,
       unitLength,
-      10,
+      wallTickness,
       {
         isStatic: true,
       }
@@ -136,7 +143,7 @@ verticalsSegment.forEach((row, rowIndex) => {
     const wall = Bodies.rectangle(
       columnIndex * unitLength + unitLength,
       rowIndex * unitLength + unitLength / 2,
-      10,
+      wallTickness,
       unitLength,
       {
         isStatic: true,
@@ -145,3 +152,22 @@ verticalsSegment.forEach((row, rowIndex) => {
     World.add(world, wall);
   });
 });
+
+// Draw Goal
+const goal = Bodies.rectangle(
+  width - unitLength / 2,
+  height - unitLength / 2,
+  0.65 * unitLength,
+  0.65 * unitLength,
+  {
+    isStatic: true,
+  }
+);
+World.add(world, goal);
+
+// Draw Ball
+const ball = Bodies.circle(unitLength / 2, unitLength / 2, ballRadius, {
+  isStatic: true,
+});
+
+World.add(world, ball);
