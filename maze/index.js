@@ -1,12 +1,14 @@
-const { Engine, Render, Runner, World, Bodies, Body } = Matter;
+const { Engine, Render, Runner, World, Bodies, Body, Events } = Matter;
 
-const cells = 15;
+const cells = 10;
 const width = 600;
 const height = 600;
 const unitLength = width / cells;
 const borderThickness = 1;
 const wallTickness = 5;
 const ballRadius = unitLength * 0.2;
+const ballLabel = "ball";
+const goalLabel = "goal";
 
 const engine = Engine.create();
 // Disable gravity
@@ -148,12 +150,15 @@ const goal = Bodies.rectangle(
   0.65 * unitLength,
   {
     isStatic: true,
+    label: goalLabel,
   }
 );
 World.add(world, goal);
 
 // Draw Ball
-const ball = Bodies.circle(unitLength / 2, unitLength / 2, ballRadius);
+const ball = Bodies.circle(unitLength / 2, unitLength / 2, ballRadius, {
+  label: ballLabel,
+});
 
 World.add(world, ball);
 
@@ -170,4 +175,16 @@ document.addEventListener("keydown", (event) => {
   } else if (event.keyCode === 39) {
     Body.setVelocity(ball, { x: x + 5, y });
   }
+});
+
+Events.on(engine, "collisionStart", (event) => {
+  event.pairs.forEach((collision) => {
+    const labels = [ballLabel, goalLabel];
+    if (
+      labels.includes(collision.bodyA.label) &&
+      labels.includes(collision.bodyB.label)
+    ) {
+      console.log("Won!");
+    }
+  });
 });
